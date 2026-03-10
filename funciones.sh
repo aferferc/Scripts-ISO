@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#Descripcion: Scrip con multiples Funciones utiles
+#Descripcion: Script con multiples Funciones utiles
 #Autor: Luca, Alfredo, Dani Berzofa, Frank
 #Version: 3
 
@@ -61,6 +61,34 @@ Parametros:
 			ej: . funciones.sh bp [bin]
 FIN
 
+}
+
+#Descripcion f_parametros: Comprueba que se han introducido argumentos al script
+#No tiene entrada, si salida
+
+f_parametros() {
+    if [ $# -eq 0 ]; then
+        echo "Error: no se han introducido argumentos."
+        exit 1
+    fi
+}
+
+f_parametros "$@"
+
+echo "Argumentos recibidos: $@"
+
+
+#Descripcion f_paquete_instalado: Funcion que permite ver si hay un paquete instalado o no
+#Tiene entrada, no salida
+
+f_paquete_instalado() {
+    dpkg -s "$1" &> /dev/null
+
+    if [ $? -eq 0 ]; then
+        return 0
+    else
+        return 1
+    fi
 }
 
 
