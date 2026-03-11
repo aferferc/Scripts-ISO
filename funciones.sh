@@ -103,39 +103,42 @@ f_obtener_ipv4(){
 
 }
 
+#Comprueba si un binario introducido se ha instalado
+#Devuelve 0 si se encuentra instalado, 1 si no
+
 f_bin_instalado() {
-        if command -v "$1" &>/dev/null; then
-          return 0
-        else
-           return 1
+  if command -v "$1" &>/dev/null; then
+    return 0
+  else
+    return 1
   fi
 }
 
+#Comprueba si un paquete esta disponible en el repositorio
+#Devuelve 0 si esta y 1 si no
+
 f_paquete_disponible() {
 
-  paquete=$1
   if dpkg -s "$1" >/dev/null 2>&1; then
-
-  echo "El paquete está disponible"
-  return 0
-
+    return 0
   else
-
-  echo "El paquete no está disponibe"
-  exit 1
+    return 1
  fi
 }
 
-f_uid() {
+#Comprueba la uid del usuario que esta usando el script
+#No recibe ni devuelve ningun parametro
 
-uid=$(id -u)
+f_uid(){
 
-        if ["$uid" -eq 0]; then
-                return $uid 
-        else
-                echo "No se puede ejecutar el script al no ser root"
-                return $uid 
-        fi
+  uid=$(id -u)
+
+  if [ $uid -ne 0]; then
+    return $uid
+  else
+    echo "No deberias estar usando este script como root"
+    return $uid
+  fi
 }
 
 
@@ -155,6 +158,12 @@ else
       f_paquete_instalado "$2";;
     "ipv4")
       f_obtener_ipv4 $2;;
-    
+    "u")
+      f_uid;;
+    "bi")
+      f_bin_instalado $2;;
+    "pd")
+      f_paquete_disponible $2;;
+      
   esac
 fi
