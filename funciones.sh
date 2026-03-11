@@ -55,7 +55,7 @@ Parametros:
 	u		Muestra uid del usuario
 	bi		Comprueba si un  binario esta isntalado ej: . funciones.sh bi [bin]
 	c		Compruba si hay conexion a internet
-	r		Comprueba si eres root
+	ro		Comprueba si eres root
 	pd		Revisa si un paquete esta disponible ej: . funciones.sh pd [package]
 	pi		Revisa si un paquete esta instalado ej: . funciones.sh pi [package]
 	bp		Busca el nombre del paquete al que pertenece un binario
@@ -130,6 +130,16 @@ f_hay_conexion(){
   fi
 }
 
+#Comprueba la uid del usuario que esta usando el script
+#No recibe ni devuelve ningun parametro
+
+f_uid(){
+
+  uid=$(id -u)
+  return $uid
+}
+
+
 #Devuelve cero en caso de estar validado en la shell como root,
 #uno en caso contrario.
 #Datos de entrada: ninguno
@@ -137,16 +147,15 @@ f_hay_conexion(){
 # y uno en caso contrario.
 
 f_eres_root(){
-
-  if [ $UID -eq 0 ]; then
+  uid=$(f_uid)
+  echo $uid
+  if [ $uid -eq 0 ]; then
     return 0
   else
     return 1
   fi
 
 }
-
-
 
 #Comprueba si un paquete esta disponible en el repositorio
 #Devuelve 0 si esta y 1 si no
@@ -160,20 +169,6 @@ f_paquete_disponible() {
  fi
 }
 
-#Comprueba la uid del usuario que esta usando el script
-#No recibe ni devuelve ningun parametro
-
-f_uid(){
-
-  uid=$(id -u)
-
-  if [ $uid -ne 0]; then
-    return $uid
-  else
-    echo "No deberias estar usando este script como root"
-    return $uid
-  fi
-}
 
 
 #--------------Zona  CODIGO PRINCIPAL SCRIPT--------------#
@@ -189,15 +184,38 @@ else
     "h")
       f_ayuda;;
     "pi")
-      f_paquete_instalado "$2";;
+      if [ $(f_paquete_instalado "$2") -eq 0]; then
+        echo "El paquete esta instalado"
+      else
+        echo "El paquete no esta instalado"
+      fi;;
     "ipv4")
       f_obtener_ipv4 $2;;
     "u")
-      f_uid;;
+      echo $(f_uid);;
     "bi")
-      f_bin_instalado $2;;
+      if [ $(f_bin_instalado "$2") -eq 0]; then
+        echo "El binario esta instalado"
+      else
+        echo "El binario no esta instalado"
+      fi;;
     "pd")
-      f_paquete_disponible $2;;
-      
+      if [ $(f_paquete_disponible "$2") -eq 0 ]; then
+        echo "El paquete esta disponible"
+      else
+        echo "El paquete no esta disponible"
+      fi;;
+    "ro")
+      if [ $(f_eres_root) -eq 0 ]; then
+        echo "Eres root"
+      else
+        echo "No eres root"
+      fi;;
+    "c")
+      if [ $(f_hay_conexion) -eq 0 ]; then
+        echo "Hay conexion"
+      else
+        echo "No hay conexion"
+      fi;;
   esac
 fi
