@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #Descripcion: Scrip con multiples Funciones utiles
-#Autor: Luca, Alfredo, Dani Berzofa, Frank
+#Autor: Luca, Alfredo, Dani Berzosa, Frank
 #Version: 3
 
 
@@ -59,6 +59,8 @@ Parametros:
 	pi		Revisa si un paquete esta instalado ej: . funciones.sh pi [package]
 	bp		Busca el nombre del paquete al que pertenece un binario
 			ej: . funciones.sh bp [bin]
+	ipv4		Muestra por pantalla la ipv4 de la maquina para una interfaz introducida
+			ej: .funciones.sh ipv4 [int]
 FIN
 
 }
@@ -95,7 +97,9 @@ f_parametros() {
 #Datos de salida: dirección IP
 
 f_obtener_ipv4(){
-   ip a | grep -E "enp3s0" | egrep -o "([0-9]{1,3}\.){3}([0-9]){1,3}" | head -n>
+
+  ip a | grep -E $1 | grep -Eo '([0-9]{1,3}\.){3}([0-9]){1,3}' | head -n 1
+
 }
 
 
@@ -114,6 +118,8 @@ else
       f_ayuda;;
     "pi")
       f_paquete_instalado "$2";;
+    "ipv4")
+      f_obtener_ipv4 $2;;
     
   esac
 fi
