@@ -89,6 +89,17 @@ f_parametros() {
 }
 
 
+#Devuelve la dirección IP de la máquina
+#Datos de entrada: ninguno, en un futuro indicamos si la tarjeta es inalámbrica
+#o cableada
+#Datos de salida: dirección IP
+
+f_obtener_ipv4(){
+   ip a | grep -E "enp3s0" | egrep -o "([0-9]{1,3}\.){3}([0-9]){1,3}" | head -n>
+}
+
+
+
 #--------------Zona  CODIGO PRINCIPAL SCRIPT--------------#
 
 f_parametros $1
