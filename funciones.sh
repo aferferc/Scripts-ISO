@@ -169,6 +169,16 @@ f_paquete_disponible() {
  fi
 }
 
+#Comprueba el nombre del paquete al que pertenece el binario que pasa como argumento
+
+f_buscar_paquetes(){
+
+if dpkg -s $(which "$1") >/dev/null 2>&1; then
+    return 0
+  else
+    return 1
+ fi
+}
 
 
 #--------------Zona  CODIGO PRINCIPAL SCRIPT--------------#
