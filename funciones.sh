@@ -1,3 +1,4 @@
+
 #!/usr/bin/env bash
 #Descripcion: Scrip con multiples Funciones utiles
 #Autor: Luca, Alfredo, Dani Berzosa, Frank
@@ -102,6 +103,40 @@ f_obtener_ipv4(){
 
 }
 
+f_bin_instalado() {
+        if command -v "$1" &>/dev/null; then
+          return 0
+        else
+           return 1
+  fi
+}
+
+f_paquete_disponible() {
+
+  paquete=$1
+  if dpkg -s "$1" >/dev/null 2>&1; then
+
+  echo "El paquete está disponible"
+  return 0
+
+  else
+
+  echo "El paquete no está disponibe"
+  exit 1
+ fi
+}
+
+f_uid() {
+
+uid=$(id -u)
+
+        if ["$uid" -eq 0]; then
+                return $uid 
+        else
+                echo "No se puede ejecutar el script al no ser root"
+                return $uid 
+        fi
+}
 
 
 #--------------Zona  CODIGO PRINCIPAL SCRIPT--------------#
