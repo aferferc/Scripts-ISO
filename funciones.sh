@@ -114,6 +114,40 @@ f_bin_instalado() {
   fi
 }
 
+#Devuelve cero en caso de tener conexión a red, uno en caso contrario.
+#Datos de entrada:ninguno
+#Datos de salida: cero en caso de tener red y uno en caso contrario
+
+
+f_hay_conexion(){
+
+  ping -c 1 8.8.8.8 &> /dev/null
+
+  if [ $? -eq 0 ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+#Devuelve cero en caso de estar validado en la shell como root,
+#uno en caso contrario.
+#Datos de entrada: ninguno
+#Datos de salida: cero si esta validad en la shell como root
+# y uno en caso contrario.
+
+f_eres_root(){
+
+  if [ $UID -eq 0 ]; then
+    return 0
+  else
+    return 1
+  fi
+
+}
+
+
+
 #Comprueba si un paquete esta disponible en el repositorio
 #Devuelve 0 si esta y 1 si no
 
