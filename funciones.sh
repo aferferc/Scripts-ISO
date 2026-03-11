@@ -85,7 +85,7 @@ f_paquete_instalado() {
 #Devuelve 0 si se an introducido, uno si no
 f_parametros() {
 
-  if [ "$1" == "" ]; then
+  if [ "$1" = "" ]; then
     echo "Error: no se han introducido argumentos."
     return 1
   fi
