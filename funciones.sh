@@ -64,38 +64,45 @@ FIN
 }
 
 #Funcion que permite ver si hay un paquete instalado o no
+#Devuelve 0 si se encuentra instalado el paquete, de lo contrario devuelve 1
 
 f_paquete_instalado() {
-    dpkg -s "$1" &> /dev/null
 
-    if [ $? -eq 0 ]; then
-        return 0
-    else
-        return 1
-    fi
+  dpkg -s "$1" &> /dev/null
+
+  if [ $? -eq 0 ]; then
+    return 0
+  else
+    return 1
+  fi
 }
 
 
-#Comprueba que se han introducido argumentos al script
-
+#Comprueba que se han introducido argumentos al script, para ello revisa si el argumento 1 esta vacio
+#Devuelve 0 si se an introducido, uno si no
 f_parametros() {
-    if [ $# -eq 0 ]; then
-        echo "Error: no se han introducido argumentos."
-        exit 1
-    fi
+
+  if [ "$1" == "" ]; then
+    echo "Error: no se han introducido argumentos."
+    return 1
+  fi
 }
-
-f_parametros "$@"
-
-echo "Argumentos recibidos: $@"
-
 
 
 #--------------Zona  CODIGO PRINCIPAL SCRIPT--------------#
 
-if [ $1 = "r" ]; then
-  f_ranking
-else
-  f_ayuda
-fi
+f_parametros $1
 
+if [ $? -eq 1 ]; then
+  f_ayuda
+else
+  case "$1" in
+    "r")
+      f_ranking;;
+    "h")
+      f_ayuda;;
+    "pi")
+      f_paquete_instalado "$2";;
+    
+  esac
+fi
