@@ -101,7 +101,7 @@ f_parametros() {
 
 f_obtener_ipv4() {
 
-  ip a | grep -E $1 | grep -Eo '([0-9]{1,3}\.){3}([0-9]){1,3}' | head -n 1
+  ip a | grep -E "$1" | grep -Eo '([0-9]{1,3}\.){3}([0-9]){1,3}' | head -n 1
 
 }
 
@@ -111,12 +111,9 @@ f_obtener_ipv4() {
 #Parametros de salida: 0 si esta instalado, 1 si no
 
 f_bin_instalado() {
-  bin=$(whereis $1)
-  if [ "$bin" = "$1:"]; then
-    return 1
-  else
-    return 0
-  fi
+
+  command -v "$1" >/dev/null 2>&1
+
 }
 
 #Nombre: f_hay_conexion
@@ -143,7 +140,7 @@ f_hay_conexion() {
 f_uid() {
 
   uid=$(id -u)
-  return $uid
+  return "$uid"
 }
 
 #Nombre: f_eres_root
@@ -153,7 +150,6 @@ f_uid() {
 
 f_eres_root() {
   uid=$(f_uid)
-  echo $uid
   if [ $uid -eq 0 ]; then
     return 0
   else
@@ -170,13 +166,11 @@ f_eres_root() {
 f_paquete_disponible() {
 
   if apt-file search "$1" | grep "/bin/$1$" | awk -F: '{print $1}' >/dev/null; then
-    echo "0"
+    return "0"
   else
-    echo "1"
+    return "1"
   fi
 }
-f_paquete_disponible "$1"
-
 
 #Nombre: f_buscar_paquetes
 #Descripcion: Comprueba el nombre del paquete al que pertenece el binario que pasa como argumento
@@ -203,48 +197,48 @@ else
     f_ayuda
     ;;
   "pi")
-    if [ $(f_paquete_instalado "$2") -eq 0 ]; then
+    if $(f_paquete_instalado "$2"); then
       echo "El paquete esta instalado"
     else
       echo "El paquete no esta instalado"
     fi
     ;;
   "ipv4")
-    f_obtener_ipv4 $2
+    f_obtener_ipv4 "$2"
     ;;
   "u")
     echo $(f_uid)
     ;;
   "bi")
-    if [ $(f_bin_instalado "$2") -eq 0 ]; then
+    if $(f_bin_instalado "$2"); then
       echo "El binario esta instalado"
     else
       echo "El binario no esta instalado"
     fi
     ;;
   "pd")
-    if [ $(f_paquete_disponible "$2") -eq 0 ]; then
+    if $(f_paquete_disponible "$2"); then
       echo "El paquete esta disponible"
     else
       echo "El paquete no esta disponible"
     fi
     ;;
   "ro")
-    if [ $(f_eres_root) -eq 0 ]; then
+    if $(f_eres_root); then
       echo "Eres root"
     else
       echo "No eres root"
     fi
     ;;
   "c")
-    if [ $(f_hay_conexion) -eq 0 ]; then
+    if $(f_hay_conexion); then
       echo "Hay conexion"
     else
       echo "No hay conexion"
     fi
     ;;
   "bq")
-    f_buscar_paquetes $2
+    f_buscar_paquetes "$2"
     ;;
   esac
 fi
