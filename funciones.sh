@@ -30,7 +30,8 @@ f_ranking() {
     historial=$(cat ~/.bash_history | awk '{print $1}' | sort | uniq -c | sort -nr | head)
     echo "Los comandos mas usados son:"
     for i in 2 4 6 8 10 12 14 16 18 20; do
-      echo $historial | cut -d' ' -f$i
+      veces=$(($i - 1))
+      echo "$(echo $historial | cut -d' ' -f$i)" "$(echo $historial | cut -d' ' -f$veces)"  veces
     done
   else
     echo "No se a encontrado el fichero .bash_history en su directorio de usuario"
