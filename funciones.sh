@@ -102,7 +102,11 @@ f_parametros() {
 
 f_obtener_ipv4() {
 
-  ip a | grep -E "$1" | grep -Eo '([0-9]{1,3}\.){3}([0-9]){1,3}' | head -n 1
+  if [ "$1" = "" ]; then
+    echo "Debes introducir la interfaz a comprobar"
+  else
+    ip a | grep -E "$1" | grep -Eo '([0-9]{1,3}\.){3}([0-9]){1,3}' | head -n 1
+  fi
 
 }
 
@@ -163,11 +167,11 @@ f_eres_root() {
 #Parametros de salida: 0 si esta disponible, 1 si no
 
 f_paquete_disponible() {
-
-  if apt-file search "$1" | grep "/bin/$1$" | awk -F: '{print $1}' >/dev/null; then
-    return 0
-  else
+  paquete=$(apt-file search "$1" | grep "/bin/$1$" | awk -F: '{print $1}')
+  if [ "$paquete" = "" ]; then
     return 1
+  else
+    return 0
   fi
 }
 
@@ -177,7 +181,7 @@ f_paquete_disponible() {
 #Parametros de salida: ninguno
 
 f_buscar_paquetes() {
-    apt-file search "$1" | grep "bin/$1$"
+    apt-file search "$1" | grep "bin/$1$" | head -n 1
 }
 
 
@@ -236,8 +240,12 @@ else
       echo "No hay conexion"
     fi
     ;;
-  "bq")
+  "bp")
     f_buscar_paquetes "$2"
+    ;;
+
+  *)
+    f_ayuda
     ;;
   esac
 fi
