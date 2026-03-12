@@ -175,17 +175,16 @@ f_paquete_disponible() {
   fi
 }
 
-<<<<<<< Updated upstream
-=======
-#Comprueba el nombre del paquete al que pertenece el binario que pasa como argumento
+#Nombre: f_buscar_paquetes
+#Descripcion: Comprueba el nombre del paquete al que pertenece el binario que pasa como argumento
+#Parmetros entrada: una cadena con el nombre del paquete ($2)
+#Parametros de salida: ninguno
+
 f_buscar_paquetes() {
     apt-file search "$1" | grep "bin/$1$"
 }
 
-f_buscar_paquetes "$1"
 
-
->>>>>>> Stashed changes
 #--------------Zona  CODIGO PRINCIPAL SCRIPT--------------#
 
 f_parametros $1
