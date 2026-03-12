@@ -20,8 +20,10 @@ NC='\033[0m' # No Color (restablecer)
 
 #--------------Zona declaracion de FUNCIONES--------------#
 
-#Descripcion f_ranking: Muestra un ranking de los 10 comandos mas usados del historial
-#No tiene entradas ni salidas
+#Nombre: f_ranking
+#Descripcion: Muestra un ranking de los 10 comandos mas usados del historial
+#Parmetros entrada: niguno
+#Parametros de salida: ninguno
 
 f_ranking() {
   if [ -r ~/.bash_history ]; then
@@ -35,8 +37,10 @@ f_ranking() {
   fi
 }
 
-#Descripcion f_ayuda: Muestra la ayuda del script
-#No tiene entradas  ni salidas
+#Nombre: f_ayuda
+#Descripcion: Muestra un ranking de los 10 comandos mas usados del historial
+#Parmetros entrada: niguno
+#Parametros de salida: ninguno
 
 f_ayuda() {
 
@@ -61,8 +65,10 @@ FIN
 
 }
 
-#Funcion que permite ver si hay un paquete instalado o no
-#Devuelve 0 si se encuentra instalado el paquete, de lo contrario devuelve 1
+#Nombre: f_paquete_instado
+#Descripcion: Funcion que permite ver si hay un paquete instalado o no
+#Parmetros entrada: una cadena que contiene el nombre del paquete ($2)
+#Parametros de salida: 0 si se encuentra instalado, 1 si no
 
 f_paquete_instalado() {
 
@@ -75,8 +81,11 @@ f_paquete_instalado() {
   fi
 }
 
-#Comprueba que se han introducido argumentos al script, para ello revisa si el argumento 1 esta vacio
-#Devuelve 0 si se an introducido, uno si no
+#Nombre: f_parametros
+#Descripcion: Comprueba que se han introducido argumentos al script, para ello revisa si el argumento 1 esta vacio
+#Parmetros entrada: el argumento nº1 del script ($1)
+#Parametros de salida: 0 si se a introducido un argumento, 1 si no
+
 f_parametros() {
 
   if [ "$1" = "" ]; then
@@ -85,10 +94,10 @@ f_parametros() {
   fi
 }
 
-#Devuelve la dirección IP de la máquina
-#Datos de entrada: ninguno, en un futuro indicamos si la tarjeta es inalámbrica
-#o cableada
-#Datos de salida: dirección IP
+#Nombre: f_obtener_ipv4
+#Descripcion: Devuelve la ipv4 de la maquina
+#Parmetros entrada: ninguno
+#Parametros de salida: ninguo
 
 f_obtener_ipv4() {
 
@@ -96,8 +105,10 @@ f_obtener_ipv4() {
 
 }
 
-#Comprueba si un binario introducido se ha instalado
-#Devuelve 0 si se encuentra instalado, 1 si no
+#Nombre: f_bin_instalado
+#Descripcion: Comprueba si un binario introducido se ha instalado
+#Parmetros entrada: Una cadena con el nombre del binario ($2)
+#Parametros de salida: 0 si esta instalado, 1 si no
 
 f_bin_instalado() {
   if command -v "$1" &>/dev/null; then
@@ -107,9 +118,10 @@ f_bin_instalado() {
   fi
 }
 
-#Devuelve cero en caso de tener conexión a red, uno en caso contrario.
-#Datos de entrada:ninguno
-#Datos de salida: cero en caso de tener red y uno en caso contrario
+#Nombre: f_hay_conexion
+#Descripcion: Comprueba si hay conexion a internet
+#Parmetros entrada: ninguno
+#Parametros de salida: 0 si hay coexion, 1 si no
 
 f_hay_conexion() {
 
@@ -122,8 +134,10 @@ f_hay_conexion() {
   fi
 }
 
-#Comprueba la uid del usuario que esta usando el script
-#No recibe ni devuelve ningun parametro
+#Nombre: f_uid
+#Descripcion: Comprueba la uid del usuario que esta usando el script
+#Parmetros entrada: ninguno
+#Parametros de salida: ninguno
 
 f_uid() {
 
@@ -131,11 +145,10 @@ f_uid() {
   return $uid
 }
 
-#Devuelve cero en caso de estar validado en la shell como root,
-#uno en caso contrario.
-#Datos de entrada: ninguno
-#Datos de salida: cero si esta validad en la shell como root
-# y uno en caso contrario.
+#Nombre: f_eres_root
+#Descripcion: Comprueba si el usuario es root
+#Parmetros entrada: ninguno
+#Parametros de salida: 0 si es root, 1 si no
 
 f_eres_root() {
   uid=$(f_uid)
@@ -148,23 +161,14 @@ f_eres_root() {
 
 }
 
-#Comprueba si un paquete esta disponible en el repositorio
-#Devuelve 0 si esta y 1 si no
+#Nombre: f_paquete_disponible
+#Descripcion: Comprueba si un paquete esta disponible en el repositorio
+#Parmetros entrada: una cadena con el nombre del paquete ($2)
+#Parametros de salida: 0 si esta disponible, 1 si no
 
 f_paquete_disponible() {
 
   if dpkg -s "$1" >/dev/null 2>&1; then
-    return 0
-  else
-    return 1
-  fi
-}
-
-#Comprueba el nombre del paquete al que pertenece el binario que pasa como argumento
-
-f_buscar_paquetes() {
-
-  if dpkg -s $(which "$1") >/dev/null 2>&1; then
     return 0
   else
     return 1

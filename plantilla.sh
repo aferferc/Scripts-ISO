@@ -27,7 +27,13 @@ NC='\033[0m' # No Color (restablecer)
 
 #--------------Zona declaracion de FUNCIONES--------------#
 
+#Nombre: f_ejemplo
+#Funcion: Sirve de ejemplo para la declaracion de funciones
+#Parametros de entrada: ninguno
+#Paramtros de salida: ninguno
+f_ejemplo(){
 
+}
 
 #--------------Zona  CODIGO PRINCIPAL SCRIPT--------------#
 
