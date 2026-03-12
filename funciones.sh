@@ -72,7 +72,7 @@ FIN
 
 f_paquete_instalado() {
 
-  dpkg -s "$1" &>/dev/null
+  dpkg -s "$1" >/dev/null 2>&1
 
   if [ $? -eq 0 ]; then
     return 0
@@ -123,7 +123,7 @@ f_bin_instalado() {
 
 f_hay_conexion() {
 
-  ping -c 1 8.8.8.8 &>/dev/null
+  ping -c 1 8.8.8.8 >/dev/null 2>&1
 
   if [ $? -eq 0 ]; then
     return 0
@@ -138,9 +138,7 @@ f_hay_conexion() {
 #Parametros de salida: ninguno
 
 f_uid() {
-
-  uid=$(id -u)
-  return "$uid"
+  id -u
 }
 
 #Nombre: f_eres_root
@@ -166,9 +164,9 @@ f_eres_root() {
 f_paquete_disponible() {
 
   if apt-file search "$1" | grep "/bin/$1$" | awk -F: '{print $1}' >/dev/null; then
-    return "0"
+    return 0
   else
-    return "1"
+    return 1
   fi
 }
 
@@ -197,7 +195,7 @@ else
     f_ayuda
     ;;
   "pi")
-    if $(f_paquete_instalado "$2"); then
+    if f_paquete_instalado "$2"; then
       echo "El paquete esta instalado"
     else
       echo "El paquete no esta instalado"
@@ -207,31 +205,31 @@ else
     f_obtener_ipv4 "$2"
     ;;
   "u")
-    echo $(f_uid)
+    f_uid
     ;;
   "bi")
-    if $(f_bin_instalado "$2"); then
+    if f_bin_instalado "$2"; then
       echo "El binario esta instalado"
     else
       echo "El binario no esta instalado"
     fi
     ;;
   "pd")
-    if $(f_paquete_disponible "$2"); then
+    if f_paquete_disponible "$2"; then
       echo "El paquete esta disponible"
     else
       echo "El paquete no esta disponible"
     fi
     ;;
   "ro")
-    if $(f_eres_root); then
+    if f_eres_root; then
       echo "Eres root"
     else
       echo "No eres root"
     fi
     ;;
   "c")
-    if $(f_hay_conexion); then
+    if f_hay_conexion; then
       echo "Hay conexion"
     else
       echo "No hay conexion"
