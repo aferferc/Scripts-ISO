@@ -169,12 +169,14 @@ f_eres_root() {
 
 f_paquete_disponible() {
 
-  if dpkg -s "$1" >/dev/null 2>&1; then
-    return 0
+  if apt-file search "$1" | grep "/bin/$1$" | awk -F: '{print $1}' >/dev/null; then
+    echo "0"
   else
-    return 1
+    echo "1"
   fi
 }
+f_paquete_disponible "$1"
+
 
 #Nombre: f_buscar_paquetes
 #Descripcion: Comprueba el nombre del paquete al que pertenece el binario que pasa como argumento
