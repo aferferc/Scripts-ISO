@@ -111,10 +111,11 @@ f_obtener_ipv4() {
 #Parametros de salida: 0 si esta instalado, 1 si no
 
 f_bin_instalado() {
-  if command -v "$1" &>/dev/null; then
-    return 0
-  else
+  bin=$(whereis $1)
+  if [ "$bin" = "$1:"]; then
     return 1
+  else
+    return 0
   fi
 }
 
@@ -200,7 +201,7 @@ else
     f_ayuda
     ;;
   "pi")
-    if [ $(f_paquete_instalado "$2") -eq 0]; then
+    if [ $(f_paquete_instalado "$2") -eq 0 ]; then
       echo "El paquete esta instalado"
     else
       echo "El paquete no esta instalado"
@@ -213,7 +214,7 @@ else
     echo $(f_uid)
     ;;
   "bi")
-    if [ $(f_bin_instalado "$2") -eq 0]; then
+    if [ $(f_bin_instalado "$2") -eq 0 ]; then
       echo "El binario esta instalado"
     else
       echo "El binario no esta instalado"
@@ -239,6 +240,9 @@ else
     else
       echo "No hay conexion"
     fi
+    ;;
+  "bq")
+    f_buscar_paquetes $2
     ;;
   esac
 fi
