@@ -2,8 +2,8 @@
 
 #Nombre: f_verificar_hash
 #Descripcion: Indica la integridad de un archivo mediante md5.
-#Parametros entrada: la ruta del archivo
-#Parametros Salida: muestra si coincide el hash, verificando la integridad
+#Parametros entrada: ruta del fichero ($1) hash esperado ($2)
+#Parametros Salida: 0 si coincide, 1 de lo contrario
 
 
 f_verificar_hash(){
