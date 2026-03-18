@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
-#f_log
+
+#Nombre: f_log
 #Descripción: Registra un evento en un archivo de log cronológico.
-#Entrada:W
-#  $1: Mensaje de texto a registrar.
-#  $2: (Opcional) Ruta del archivo de log. Por defecto /var/log/sysadmin.log.
-#Devuelve:
-#  0: Registro guardado correctamente.
-#  1: Error de permisos al escribir en el archivo.
+#Parmetros entrada: Mensaje de texto a registrar ($1), ruta del fichero .log ($2)
+#Parametros de salida: Devuelve un 0 si se guarda correctamente y 1 si hay un error de permisos
+#O el punto de montaje es incorrecto
 
 f_log(){
 

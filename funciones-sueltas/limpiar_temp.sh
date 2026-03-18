@@ -1,10 +1,7 @@
-#Borra archivos antiguos en un directorio específico.
-#Entrada:
-#  $1: Ruta del directorio.
-#  $2: Antigüedad en días (ej: 7 para borrar archivos de más de una semana).
-#Devuelve:
-#  0: Limpieza realizada.
-#  1: Directorio no encontrado.
+#Nombre: f_limpiar_temporales
+#Descripción: Borra archivos antiguos en un directorio específico.
+#Parmetros entrada: Ruta del directorio ($1) antiguedad en dias ($2)
+#Parametros de salida: Devuelve un 0 si tiene un formato correcto y 1 si no e imprime por la salida de error el error
 
 
 f_limpiar_temporales() {
@@ -17,6 +14,6 @@ f_limpiar_temporales() {
 
     return 0
 }
+
+
 f_limpiar_temporales $1 $2
-
-

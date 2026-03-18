@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-#Función para ver si la ip tiene el formato ipv4
+
+#Nombre: f_es_ip_valida
 #Descripción: Valida sintácticamente si una cadena tiene formato de IPv4.
-#Entrada: $1: Cadena de texto a validar.
-#Devuelve:
-#0: Formato de IP correcto.
-#1: Formato inválido (imprime error por stderr).
+#Parmetros entrada: Cadena de texto a validar ($1).
+#Parametros de salida: Devuelve un 0 si tiene un formato correcto y 1 si no e imprime por la salida de error el error
+
 f_es_ip_valida(){
 
   ip=$(echo $1 | grep -Eo '^[0-9]{1,3}(\.[0-9]{1,3}){3}$')
