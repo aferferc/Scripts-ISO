@@ -373,7 +373,7 @@ f_borrar_duplicados() {
   fi
   lista_hash=""
   lista_archivos=""
-  for archivo in $(find "$1" -type f); do
+  find "$1" -type f | while IFS= read -r archivo; do
     duplicado=0
     i=1
     for hash in $lista_hash; do
